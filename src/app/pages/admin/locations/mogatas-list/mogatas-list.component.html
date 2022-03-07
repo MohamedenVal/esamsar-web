@@ -1,0 +1,44 @@
+<div class="card">
+  <div class="container-fuild">
+    <button type="button" class="btn btn-primary btn-lg m-2" routerLink="form">اضف مقاطعة</button>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title">قائمة المقاطعات </h5>
+    <p class="card-text">هذه لائحة المقاطعات المتواجد في قاعدة البيانات حاليا, يمكنك اضاقة مقاطعة او تغيرها من هنا.</p>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col"># </th>
+        <th scope="col">الاسم </th>
+        <th scope="col">الولاية</th>
+        <th scope="col"> </th>
+        <th scope="col"></th>
+
+      </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let mogata of mogatas">
+
+          <tr>
+            <th scope="row">{{ '#' }}</th>
+            <td scope="row">{{ mogata.name }}</td>
+            <td scope="row">{{ mogata.wilaya.name }}</td>
+            <td scope="row">
+              <button type="button" class="btn btn-success" [routerLink]="'form/' + mogata.id" >تعديل النوعية</button>
+            </td>
+            <td scope="row">
+              <button type="button" class="btn btn-danger" (click)="deleteMogata(mogata.id)">حذف النوعية</button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+
+    </table>
+
+
+  </div>
+</div>
+
+

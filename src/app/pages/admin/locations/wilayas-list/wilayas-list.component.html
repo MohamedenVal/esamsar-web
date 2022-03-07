@@ -1,0 +1,43 @@
+<div class="card">
+  <div class="container-fuild">
+    <button type="button" class="btn btn-primary btn-lg m-2" routerLink="form">اضف ولاية </button>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title">قائمة الولايات </h5>
+    <p class="card-text">هنا لائحة الولايات المتواجد في قاعدة البيانات حاليا, يمكنك اذافة ولايات او تغيرها من هنا.</p>
+
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col"># </th>
+        <th scope="col">الاسم </th>
+        <th scope="col"> </th>
+        <th scope="col"></th>
+
+      </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let wilaya of wilayas">
+
+          <tr>
+            <th scope="row">{{ '#' }}</th>
+            <td scope="row">{{ wilaya.name }}</td>
+            <td scope="row">
+              <button type="button" class="btn btn-success" [routerLink]="'form/' + wilaya.id" >تعديل</button>
+            </td>
+            <td scope="row">
+              <button type="button" class="btn btn-danger" (click)="deleteWilaya(wilaya.id)">حذف </button>
+            </td>
+
+
+          </tr>
+        </ng-container>
+      </tbody>
+
+    </table>
+
+
+  </div>
+</div>
+
