@@ -11,10 +11,13 @@ import { CategoriesListComponent } from './category/categories-list/categories-l
 import { PropertyFormComponent } from './properties/property-form/property-form.component';
 import { CategoryFormComponent } from './category/category-form/category-form.component';
 import { WilayaFormComponent } from './locations/wilaya-form/wilaya-form.component';
-import { AuthGuard } from 'src/app/services/auth-guard.service';
 import { UserFormComponent } from './users/user-form/user-form.component';
 import { MogatasListComponent } from './locations/mogatas-list/mogatas-list.component';
 import { UserPropertiesComponent } from './properties/user-properties/user-properties.component';
+import { DemandsListComponent } from './demands/demands-list/demands-list.component';
+import { DemandFormComponent } from './demands/demand-form/demand-form.component';
+import { UserDemandsComponent } from './demands/user-demands/user-demands.component';
+import { AuthGuard } from 'src/app/services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -71,8 +74,11 @@ const routes: Routes = [
             component: PropertyFormComponent
           },
           {
-            path: 'properties/form/users/:id',
-            component: PropertyFormComponent
+            path: 'properties/users/form/:id',
+            component: PropertyFormComponent,
+            data: {
+              user: true
+            }
           },
           {
             path: 'categories',
@@ -97,6 +103,29 @@ const routes: Routes = [
           {
             path: 'wilayas/form/:id',
             component: WilayaFormComponent
+          },
+          {
+            path: 'demands',
+            component: DemandsListComponent
+          },
+          {
+            path: 'demands/users',
+            component: UserDemandsComponent
+          },
+          {
+            path: 'demands/form',
+            component: DemandFormComponent
+          },
+          {
+            path: 'demands/form/:id',
+            component: DemandFormComponent
+          },
+          {
+            path: 'demands/users/form/:id',
+            component: DemandFormComponent,
+            data: {
+              user: true
+            }
           },
 
       ]

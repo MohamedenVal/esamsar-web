@@ -8,7 +8,6 @@ import { timer } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { Mogata } from 'src/app/models/mogata';
 import { Property } from 'src/app/models/property';
-// import { ToolbarService, LinkService, ImageService, HtmlEditorService, RichTextEditorComponent } from '@syncfusion/ej2-angular-richtexteditor';
 
 
 @Component({
@@ -26,6 +25,10 @@ export class PropertyFormComponent implements OnInit {
   mogatas!: Mogata[];
   imageDisplay!: string | ArrayBuffer | null | undefined;
   imagesPreview!: string[] | ArrayBuffer | null | undefined;
+  selectedCat!: Category;
+  selectedMog!: Mogata;
+  user = false;
+  forSell = true;
 
   // @ViewChild('fromRTE')
     // private rteEle!: RichTextEditorComponent;
@@ -39,6 +42,9 @@ export class PropertyFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    let data = this.route.snapshot.data;
+    this.user = data.user;
+
     this._initForm();
     this._getCategoriesAndMogatas();
     this._checkEditMode();
@@ -55,9 +61,9 @@ export class PropertyFormComponent implements OnInit {
         description: [''],
         location: [''],
         address: [''],
-        image: ['', Validators.required],
+        image: [''],
         isFeatured: [false],
-        sell: [true]
+        sell: [this.forSell]
     });
   }
 
@@ -120,31 +126,51 @@ export class PropertyFormComponent implements OnInit {
       .subscribe(
           (property: Property) => {
             // code for confermatio popup
-          this.returnBack();
+          // this.returnBack();
           });
     }
 
   // method for creating a ctegory
   private _createProperty(propertyFormData: FormData) {
     // creating ...
-    this.propertiesService.createProperty(propertyFormData).subscribe(
-      (property: Property) => {
-      // code for confermation popups
-      this.returnBack();
-      }
-    );
+    if(this.user) {
+      this.propertiesService.createUserProperty(propertyFormData)
+        .subscribe((property: Property) => {
+          // code for confermation popups
+          this.returnBack();
+        }
+      );
+    } else {
+      this.propertiesService.createProperty(propertyFormData).subscribe(
+        (property: Property) => {
+        // code for confermation popups
+        this.returnBack();
+        }
+      );
+
+    }
     }
 
   private _updateProperty(propertyFormData: FormData) {
     // Updating ...
-    this.propertiesService
-      .updateProperty(propertyFormData, this.propertyPramId)
-      .subscribe(
-        (property: Property) => {
-          // code for confermation popups or not
-          this.returnBack();
-        }
-      );
+    if(this.user) {
+      this.propertiesService.updateUserProperty(propertyFormData, this.propertyPramId)
+        .subscribe(
+          (property: Property) => {
+            // code for confermation popups or not
+            this.returnBack();
+          }
+        );
+    } else {
+      this.propertiesService.updateProperty(propertyFormData, this.propertyPramId)
+        .subscribe(
+          (property: Property) => {
+            // code for confermation popups or not
+            this.returnBack();
+          }
+        );
+
+    }
   }
 
   // Return to previous page
@@ -162,38 +188,77 @@ export class PropertyFormComponent implements OnInit {
       if (pararms.id) {
         this.propertyPramId = pararms.id;
         this.editMode = true;
-        this.propertiesService
-          .getSingleProperty(pararms.id)
-          .subscribe((property: Property) => {
-            this.propertyForm.name.setValue(property.name);
-            this.propertyForm.category.setValue(
+        if(this.user) {
+          this.propertiesService
+            .getUserProperty(pararms.id)
+            .subscribe((property: Property) => {
+              this.propertyForm.name.setValue(property.name);
+              this.propertyForm.category.setValue(
+                this.selectedCat = property.category,
                 property.category.id
-            );
-            this.propertyForm.mogata.setValue(
-                property.mogata.id
-            );
-            this.propertyForm.price.setValue(property.price);
-            this.propertyForm.phone.setValue(property.phone);
-            this.propertyForm.room.setValue(property.room);
-            this.propertyForm.isFeatured.setValue(
-                property.isFeatured
-            );
-            this.propertyForm.sell.setValue(
-                property.sell
-            );
-            this.propertyForm.description.setValue(
-                property.description
-            );
-            this.propertyForm.address.setValue(
-              property.address
-            );
-            this.propertyForm.location.setValue(
-              property.location
-            );
-            this.imageDisplay = property.image;
-            this.propertyForm.image.setValidators([]);
-            this.propertyForm.image.updateValueAndValidity();
-          });
+              );
+              this.propertyForm.mogata.setValue(
+                this.selectedMog = property.mogata,
+                  property.mogata.id
+              );
+              this.propertyForm.price.setValue(property.price);
+              this.propertyForm.phone.setValue(property.phone);
+              this.propertyForm.room.setValue(property.room);
+              this.propertyForm.isFeatured.setValue(
+                  property.isFeatured
+              );
+              this.propertyForm.sell.setValue(
+                  property.sell
+              );
+              this.propertyForm.description.setValue(
+                  property.description
+              );
+              this.propertyForm.address.setValue(
+                property.address
+              );
+              this.propertyForm.location.setValue(
+                property.location
+              );
+              this.imageDisplay = property.image;
+              this.propertyForm.image.setValidators([]);
+              this.propertyForm.image.updateValueAndValidity();
+            });
+        } else {
+          this.propertiesService
+            .getSingleProperty(pararms.id)
+            .subscribe((property: Property) => {
+              this.propertyForm.name.setValue(property.name);
+              this.propertyForm.category.setValue(
+                this.selectedCat = property.category,
+                property.category.id
+              );
+              this.propertyForm.mogata.setValue(
+                this.selectedMog = property.mogata,
+                  property.mogata.id
+              );
+              this.propertyForm.price.setValue(property.price);
+              this.propertyForm.phone.setValue(property.phone);
+              this.propertyForm.room.setValue(property.room);
+              this.propertyForm.isFeatured.setValue(
+                  property.isFeatured
+              );
+              this.propertyForm.sell.setValue(
+                  property.sell
+              );
+              this.propertyForm.description.setValue(
+                  property.description
+              );
+              this.propertyForm.address.setValue(
+                property.address
+              );
+              this.propertyForm.location.setValue(
+                property.location
+              );
+              this.imageDisplay = property.image;
+              this.propertyForm.image.setValidators([]);
+              this.propertyForm.image.updateValueAndValidity();
+            });
+        }
       }
     });
   }

@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ServicesComponent } from './pages/services/services.component';
+import { DemamdsComponent } from './pages/demands/demamds.component';
+import { DemandDetailComponent } from './pages/demands/demand-detail/demand-detail.component';
+import { UserDemandComponent } from './pages/demands/user-demand/user-demand.component';
 
 const routes: Routes = [
   {
@@ -23,6 +26,18 @@ const routes: Routes = [
     component: ServicesComponent
   },
   {
+    path: 'demand',
+    component: DemamdsComponent
+  },
+  {
+    path: 'demand/:id',
+    component: DemandDetailComponent
+  },
+  {
+    path: 'تقديم-طلب',
+    component: UserDemandComponent
+  },
+  {
     path: 'onmap/:name',
     component: MapsComponent
   },
@@ -34,7 +49,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled'})],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -19,6 +19,12 @@ import { HeroComponent } from './pages/home/hero/hero.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { MapsComponent } from './pages/maps/maps.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { DemamdsComponent } from './pages/demands/demamds.component';
+import { DemandComponent } from './pages/demands/demand/demand.component';
+import { DemandDetailComponent } from './pages/demands/demand-detail/demand-detail.component';
+import { UserDemandComponent } from './pages/demands/user-demand/user-demand.component';
+import { ContactButtonsComponent } from './components/contact-buttons/contact-buttons.component';
+import { ServicesComponent } from './pages/services/services.component';
 
 // Factory function required during AOT compilation
 export function httpTranslateLoaderFactory(http: HttpClient) {
@@ -28,13 +34,18 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
+    ServicesComponent,
     HeaderComponent,
     FooterComponent,
     NavComponent,
     HomeComponent,
     HeroComponent,
     ContactComponent,
-    MapsComponent
+    MapsComponent,
+    DemandComponent,
+    DemandDetailComponent,
+    UserDemandComponent,
+    DemamdsComponent
   ],
   imports: [
     BrowserModule,
@@ -51,8 +62,7 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
       }
     }),
     ServiceWorkerModule.register('ngsw-worker.js', {
-      // enabled: environment.production,
-      enabled: true,
+      enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
@@ -62,6 +72,6 @@ export function httpTranslateLoaderFactory(http: HttpClient) {
     // }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

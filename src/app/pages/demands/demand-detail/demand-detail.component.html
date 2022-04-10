@@ -1,0 +1,13 @@
+<div class="card w-75 justify-content-center mx-auto my-5 m">
+  <div class="card-body">
+    <h5 class="card-title">{{ demand.title }}</h5>
+    <p class="card-text">
+      {{ demand.body }}
+    </p>
+    <p class="mb-2 text-muted">{{ demand.dateCreated | date }}</p>
+    <app-contact-buttons [message]="siteUrl + '/demand/' + demand.id"></app-contact-buttons>
+    <button href="#" class="btn" (click)="addFavourite()">
+      <i class="bi bi-hand-thumbs-up-fill"></i>
+    </button>
+  </div>
+</div>
